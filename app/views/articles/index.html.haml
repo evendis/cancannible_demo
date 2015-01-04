@@ -1,0 +1,15 @@
+%table.table
+  %thead
+    %tr
+      %th ID
+      %th Title
+      %th Group
+      %th Customer
+
+  %tbody
+    - collection.each do |row|
+      %tr
+        %td= row.id
+        %td= row.title
+        %td= row.group.try(:name)
+        %td= row.customer.try(:name)

@@ -1,0 +1,40 @@
+!!! 5
+%html
+  %head
+    %title Cancannible Demo
+    = stylesheet_link_tag    "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", media: "all"
+    = stylesheet_link_tag    "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css", media: "all"
+    = stylesheet_link_tag    "https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css", media: "all"
+    = stylesheet_link_tag    "application", media: "all"
+    = javascript_include_tag "application"
+    = javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+    = csrf_meta_tags
+  %body
+    = link_to "https://github.com/evendis/cancannible_demo", class: "forkme" do
+      = image_tag "https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png", alt: "Fork me on GitHub"
+
+    %nav.navbar.navbar-default(role="navigation")
+      .container
+        .navbar-header
+          %a.navbar-brand(href="/") Cancannible Demo
+        - if user_signed_in?
+          %ul.nav.navbar-nav
+            %li= link_to "Demo Article Access", articles_path
+            %li= link_to "Demo Customer Access", customers_path
+            %li.dropdown
+              %a.dropdown-toggle{ data: { toggle: 'dropdown' } } Internals
+              %ul.dropdown-menu
+                %li= link_to "Users", users_path
+                %li= link_to "Groups", groups_path
+                %li= link_to "Roles", roles_path
+        %ul.nav.navbar-nav.navbar-right
+          - if user_signed_in?
+            %li= link_to "Sign Out", destroy_user_session_path, :id => "signout", :method => :delete
+          - else
+            %li= link_to "Demo Sign In", new_user_session_path, :id => "signin"
+    .container
+      - if user_signed_in?
+        %row
+
+      %row
+        = yield

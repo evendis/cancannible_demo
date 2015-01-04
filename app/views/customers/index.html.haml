@@ -1,0 +1,11 @@
+%table.table
+  %thead
+    %tr
+      %th ID
+      %th Name
+
+  %tbody
+    - collection.each do |row|
+      %tr
+        %td= row.id
+        %td= row.name
