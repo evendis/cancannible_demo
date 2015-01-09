@@ -3,6 +3,8 @@ class Permission < ActiveRecord::Base
   belongs_to :permissible, polymorphic: true
   belongs_to :resource, polymorphic: true
 
+  attr_accessible :asserted, :ability, :resource_id, :resource_type
+
   validates_uniqueness_of :ability, scope: [:resource_id, :resource_type, :permissible_id, :permissible_type]
 
 end

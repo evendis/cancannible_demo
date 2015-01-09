@@ -9,7 +9,7 @@
   %tbody
     - collection.each do |row|
       %tr
-        %td= row.id
+        %td.test_id= row.id
         %td= row.title
         %td= row.group.try(:name)
         %td= row.customer.try(:name)

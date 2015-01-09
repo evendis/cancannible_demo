@@ -47,4 +47,9 @@ gem 'inherited_resources'
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'guard-rspec'
+  gem 'capybara'
+end
+
+group :test do
+  gem 'factory_girl_rails'
 end

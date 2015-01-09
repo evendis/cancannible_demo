@@ -19,3 +19,9 @@ Note: this is work-in-progress..
     # now you are ready to go..
     rails s
     open http://localhost:3000
+
+## Tests
+
+Tests are written with [RSpec](https://www.relishapp.com/rspec/rspec-rails/docs) and are found in the [./spec](./spec) folder.
+
+Only tests that specifically demonstrate cancannible-related behaviour are included, to avoid confusing the issue.
