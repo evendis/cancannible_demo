@@ -12,4 +12,6 @@ class User < ActiveRecord::Base
   has_many :users_roles, class_name: 'UsersRoles'
   has_many :roles, through: :users_roles
 
+  include Cancannible::Grantee
+
 end

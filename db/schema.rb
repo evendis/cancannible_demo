@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150104102340) do
+ActiveRecord::Schema.define(:version => 20150109124753) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -33,6 +33,19 @@ ActiveRecord::Schema.define(:version => 20150104102340) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "permissions", :force => true do |t|
+    t.integer  "permissible_id"
+    t.string   "permissible_type"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.string   "ability"
+    t.boolean  "asserted"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "permissions", ["permissible_id", "permissible_type"], :name => "index_permissions_permissible"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
