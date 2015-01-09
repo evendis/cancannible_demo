@@ -1,3 +1,8 @@
 language: ruby
 rvm:
   - 1.9.3
+addons:
+  postgresql: "9.3"
+before_script:
+  - psql -c 'create database cancannible_demo_test;' -U postgres
+  - psql postgres -c "create role cancannible_demo with login superuser" -U postgres
