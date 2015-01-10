@@ -3,7 +3,7 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field form-group">
     <%= f.label :username %><br />
-    <%= f.select :username, User.all.collect(&:username), include_blank: false %>
+    <%= f.select :username, User.options_collection_for_signin, include_blank: false %>
     <%= f.hidden_field :password, value: 'password' %>
   </div>
 

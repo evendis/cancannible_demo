@@ -14,4 +14,16 @@ class User < ActiveRecord::Base
 
   include Cancannible::Grantee
 
+
+  class << self
+
+    def options_collection_for_signin
+      all.collect{ |u| [u.full_description,u.username] }
+    end
+  end
+
+  def full_description
+    [username,description].compact.join ' - '
+  end
+
 end
