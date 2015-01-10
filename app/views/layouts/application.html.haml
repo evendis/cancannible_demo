@@ -27,11 +27,12 @@
                 %li= link_to "Users", users_path
                 %li= link_to "Groups", groups_path
                 %li= link_to "Roles", roles_path
+                %li= link_to "Permissions", permissions_path
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
-            %li= link_to "Sign Out", destroy_user_session_path, :id => "signout", :method => :delete
+            %li= link_to "Sign Out", destroy_user_session_path, id: "signout", method: :delete
           - else
-            %li= link_to "Demo Sign In", new_user_session_path, :id => "signin"
+            %li= link_to "Demo Sign In", new_user_session_path, id: "signin"
     .container
       - if user_signed_in?
         %row

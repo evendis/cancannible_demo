@@ -1,0 +1,18 @@
+:ruby
+  display_attributes = %w(permissible_id permissible_type ability asserted resource_id resource_type)
+
+%table.table
+  %thead
+    %tr
+      %th ID
+      - display_attributes.each do |attribute_name|
+        %th= attribute_name
+
+  %tbody
+    - collection.each do |row|
+      %tr
+        %td.test_id= row.id
+        - display_attributes.each do |attribute_name|
+          %td= row.send attribute_name
+
+
