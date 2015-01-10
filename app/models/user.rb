@@ -30,4 +30,7 @@ class User < ActiveRecord::Base
     roles.collect(&:name).join ', '
   end
 
+  delegate :name, to: :customer,  allow_nil: true, prefix: true
+  delegate :name, to: :group,  allow_nil: true, prefix: true
+
 end
