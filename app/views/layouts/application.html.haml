@@ -34,6 +34,11 @@
           - else
             %li= link_to "Demo Sign In", new_user_session_path, id: "signin"
     .container
+      - if flash.any?
+        #flash.row
+        - flash.each do |key, value|
+          .alert.alert-danger{ class: "alert-#{key}"}= value
+
       - if user_signed_in?
         %row
 
