@@ -52,7 +52,20 @@ Cancannible.setup do |config|
   #
   # Note: the rule is ignored if the resource does not sport the attribute mentioned, or if the grantee method is not defined.
 
+
   config.refine_access group_id: :group_id, allow_nil: true
+
+  config.refine_access customer_id: :customer_id, if: proc{ |grantee,model_resource|
+    model_resource.is_a?(Article) &&
+    grantee.respond_to?(:customer_id) &&
+    grantee.customer_id.present?
+  }
+
+  config.refine_access id: :customer_id, if: proc{ |grantee,model_resource|
+    model_resource.is_a?(Customer) &&
+    grantee.respond_to?(:customer_id) &&
+    grantee.customer_id.present?
+  }
 
   # Multiple conditions syntax example:
   #   config.refine_access customer_id: :accessible_customer_ids, product_id: :accessible_product_ids

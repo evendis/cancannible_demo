@@ -27,13 +27,11 @@ customer_user = User.create( common_user_attrs.merge( username: 'customer_user',
 admin_user.roles << admin_role
 customer_user.roles << customer_role
 
-Article.create([
-  { title: 'No Group or Customer' },
-  { title: 'Article 1 For Article Readers Group', group: article_readers_group },
-  { title: 'Article 2 For General Group', group: general_group },
-  { title: 'For CustomerA', customer: customer_a },
-  { title: 'For CustomerA or Article Readers', group: article_readers_group, customer: customer_a }
-])
+article_1 = Article.create( title: 'No Group or Customer' )
+article_2 = Article.create( title: 'Article 1 For Article Readers Group', group: article_readers_group )
+article_3 = Article.create( title: 'Article 2 For General Group', group: general_group )
+article_4 = Article.create( title: 'For CustomerA', customer: customer_a )
+article_5 = Article.create( title: 'For CustomerA or Article Readers', group: article_readers_group, customer: customer_a )
 
 ## Define some permissions (these get stored in the database by cancannible)
 
@@ -44,4 +42,9 @@ admin_role.can :read, :all
 article_readers_group.can :read, Article
 
 # anyone with the customer_role can see customer records
+customer_role.can :read, Article
 customer_role.can :read, Customer
+
+# specific record access
+limited_user.can :read, customer_b
+limited_user.can :read, article_5
