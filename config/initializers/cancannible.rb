@@ -52,6 +52,7 @@ Cancannible.setup do |config|
   #
   # Note: the rule is ignored if the resource does not sport the attribute mentioned, or if the grantee method is not defined.
 
+  config.refine_access group_id: :group_id, allow_nil: true
 
   # Multiple conditions syntax example:
   #   config.refine_access customer_id: :accessible_customer_ids, product_id: :accessible_product_ids

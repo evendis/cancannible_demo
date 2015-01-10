@@ -29,9 +29,10 @@ customer_user.roles << customer_role
 
 Article.create([
   { title: 'No Group or Customer' },
-  { title: 'Article 1 For General Group', group: general_group },
+  { title: 'Article 1 For Article Readers Group', group: article_readers_group },
   { title: 'Article 2 For General Group', group: general_group },
-  { title: 'For CustomerA', customer: customer_a }
+  { title: 'For CustomerA', customer: customer_a },
+  { title: 'For CustomerA or Article Readers', group: article_readers_group, customer: customer_a }
 ])
 
 ## Define some permissions (these get stored in the database by cancannible)

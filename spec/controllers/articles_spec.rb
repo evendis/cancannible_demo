@@ -5,9 +5,12 @@ describe ArticlesController do
 
   describe "GET :index" do
 
-    let(:user)                { FactoryGirl.create(:user) }
+    let(:user)                { FactoryGirl.create(:user, group: users_group) }
+    let(:users_group)         { nil }
+    let(:group)               { FactoryGirl.create(:group) }
+
     let!(:article_for_all)    { FactoryGirl.create(:article) }
-    let!(:restricted_article) { FactoryGirl.create(:article) }
+    let!(:article_for_group)  { FactoryGirl.create(:article, group: group) }
 
     subject { get :index }
 
@@ -21,7 +24,6 @@ describe ArticlesController do
 
 
     context "when user has no permissions to see Articles" do
-
       before do
         sign_in user
       end
@@ -30,76 +32,92 @@ describe ArticlesController do
         expect(subject).to be_redirect
         expect(flash.alert).to be_present
       end
-
     end
 
+    context "when user does not have a group" do
 
-    context "when user can read all Articles" do
+      context "and can read all Articles" do
+        before do
+          user.can :read, Article
+          sign_in user
+        end
 
-      before do
-        user.can :read, Article
-        sign_in user
+        it "they should see articles that don't have a group" do
+          expect(subject).to be_success
+          expect(response.body).to have_selector('td.test_id', text: article_for_all.id)
+          expect(response.body).to_not have_selector('td.test_id', text: article_for_group.id)
+        end
       end
 
-      it "they should see all articles" do
-        expect(subject).to be_success
-        expect(response.body).to have_selector('td.test_id', text: article_for_all.id)
-        expect(response.body).to have_selector('td.test_id', text: restricted_article.id)
+      context "and can read all Articles through a role permission" do
+        let(:role)               { FactoryGirl.create(:role) }
+        before do
+          user.roles << role
+          role.can :read, Article
+          sign_in user
+        end
+
+        it "they should see articles that don't have a group" do
+          expect(subject).to be_success
+          expect(response.body).to have_selector('td.test_id', text: article_for_all.id)
+          expect(response.body).to_not have_selector('td.test_id', text: article_for_group.id)
+        end
       end
 
-    end
+      context "and can only read specific Articles" do
+        let!(:special_article)    { FactoryGirl.create(:article) }
+        before do
+          user.can :read, special_article
+          sign_in user
+        end
 
-
-    context "when user can only read some Articles" do
-
-      before do
-        user.can :read, article_for_all
-        sign_in user
-      end
-
-      it "they should only see accessible articles" do
-        expect(subject).to be_success
-        expect(response.body).to have_selector('td.test_id', text: article_for_all.id)
-        expect(response.body).to_not have_selector('td.test_id', text: restricted_article.id)
-      end
-
-    end
-
-
-    context "when user can read all Articles through a group permission" do
-      let(:group)               { FactoryGirl.create(:group) }
-      let(:user)                { FactoryGirl.create(:user, group: group) }
-
-      before do
-        group.can :read, Article
-        sign_in user
-      end
-
-      it "they should see all articles" do
-        expect(subject).to be_success
-        expect(response.body).to have_selector('td.test_id', text: article_for_all.id)
-        expect(response.body).to have_selector('td.test_id', text: restricted_article.id)
+        it "they should only see those articles" do
+          expect(subject).to be_success
+          expect(response.body).to have_selector('td.test_id', text: special_article.id)
+          expect(response.body).to_not have_selector('td.test_id', text: article_for_all.id)
+          expect(response.body).to_not have_selector('td.test_id', text: article_for_group.id)
+        end
       end
 
     end
 
 
-    context "when user can read all Articles through a role permission" do
-      let(:role)               { FactoryGirl.create(:role) }
+    context "when user has a group" do
+      let(:users_group)              { group }
+      let(:other_group)              { FactoryGirl.create(:group) }
+      let!(:article_for_other_group) { FactoryGirl.create(:article, group: other_group) }
 
-      before do
-        user.roles << role
-        role.can :read, Article
-        sign_in user
+      context "and can read all Articles" do
+        before do
+          user.can :read, Article
+          sign_in user
+        end
+
+        it "they should see articles that don't have a group or are for their group" do
+          expect(subject).to be_success
+          expect(response.body).to have_selector('td.test_id', text: article_for_all.id)
+          expect(response.body).to have_selector('td.test_id', text: article_for_group.id)
+          expect(response.body).to_not have_selector('td.test_id', text: article_for_other_group.id)
+        end
       end
 
-      it "they should see all articles" do
-        expect(subject).to be_success
-        expect(response.body).to have_selector('td.test_id', text: article_for_all.id)
-        expect(response.body).to have_selector('td.test_id', text: restricted_article.id)
+      context "and can read all Articles thru group permission" do
+        before do
+          group.can :read, Article
+          sign_in user
+        end
+
+        it "they should see articles that don't have a group or are for their group" do
+          expect(subject).to be_success
+          expect(response.body).to have_selector('td.test_id', text: article_for_all.id)
+          expect(response.body).to have_selector('td.test_id', text: article_for_group.id)
+          expect(response.body).to_not have_selector('td.test_id', text: article_for_other_group.id)
+        end
       end
 
     end
+
+
 
   end
 
