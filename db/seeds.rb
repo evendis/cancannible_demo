@@ -7,9 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-group_a = Group.create(name: 'GroupA')
-group_b = Group.create(name: 'GroupB')
-group_c = Group.create(name: 'GroupC')
+article_readers_group = Group.create(name: 'Article Readers')
+general_group = Group.create(name: 'Group Without Special Permissions')
 
 admin_role = Role.create(name: 'Admin Role')
 customer_role = Role.create(name: 'Customer Role')
@@ -21,7 +20,7 @@ customer_c = Customer.create(name: 'CustomerC')
 common_user_attrs = { password: 'password', password_confirmation: 'password' }
 
 admin_user    = User.create( common_user_attrs.merge( username: 'admin_user'   , description: 'has access to everything by virtue of their Admin Role' ) )
-group_user    = User.create( common_user_attrs.merge( username: 'group_user'   , description: 'has access determined by their group membership', group: group_a ) )
+group_user    = User.create( common_user_attrs.merge( username: 'group_user'   , description: 'has access determined by their group membership', group: article_readers_group ) )
 limited_user  = User.create( common_user_attrs.merge( username: 'limited_user' , description: 'has direct permissions assigned (no role or group)' ) )
 customer_user = User.create( common_user_attrs.merge( username: 'customer_user', description: 'has access determined by their customer relationship and Customer Role', customer: customer_a ) )
 
@@ -30,9 +29,18 @@ customer_user.roles << customer_role
 
 Article.create([
   { title: 'No Group or Customer' },
-  { title: 'For GroupA', group: group_a },
-  { title: 'For GroupB', group: group_b },
+  { title: 'Article 1 For General Group', group: general_group },
+  { title: 'Article 2 For General Group', group: general_group },
   { title: 'For CustomerA', customer: customer_a }
 ])
 
-# TODO: Define some permissions (these get stored in the database by cancannible)
+## Define some permissions (these get stored in the database by cancannible)
+
+# anyone with the admin role can see everything
+admin_role.can :read, :all
+
+# anyone in the article_readers_group can see articles
+article_readers_group.can :read, Article
+
+# anyone with the customer_role can see customer records
+customer_role.can :read, Customer

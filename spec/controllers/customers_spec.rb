@@ -20,6 +20,20 @@ describe CustomersController do
     end
 
 
+    context "when user has no permissions to see Customers" do
+
+      before do
+        sign_in user
+      end
+
+      it "should redirect with alert" do
+        expect(subject).to be_redirect
+        expect(flash.alert).to be_present
+      end
+
+    end
+
+
     context "when user read all Customers" do
 
       before do
@@ -51,18 +65,41 @@ describe CustomersController do
     end
 
 
-    context "when user has no permissions to see Customers" do
+    context "when user can read all Customers through a group permission" do
+      let(:group)               { FactoryGirl.create(:group) }
+      let(:user)                { FactoryGirl.create(:user, group: group) }
 
       before do
+        group.can :read, Customer
         sign_in user
       end
 
-      it "should redirect with alert" do
-        expect(subject).to be_redirect
-        expect(flash.alert).to be_present
+      it "they should see all customers" do
+        expect(subject).to be_success
+        expect(response.body).to have_selector('td.test_id', text: customer.id)
+        expect(response.body).to have_selector('td.test_id', text: restricted_customer.id)
       end
 
     end
+
+
+    context "when user can read all Customers through a role permission" do
+      let(:role)               { FactoryGirl.create(:role) }
+
+      before do
+        user.roles << role
+        role.can :read, Customer
+        sign_in user
+      end
+
+      it "they should see all customers" do
+        expect(subject).to be_success
+        expect(response.body).to have_selector('td.test_id', text: customer.id)
+        expect(response.body).to have_selector('td.test_id', text: restricted_customer.id)
+      end
+
+    end
+
 
   end
 

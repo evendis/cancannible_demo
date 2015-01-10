@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :roles, through: :users_roles
 
   include Cancannible::Grantee
+  inherit_permissions_from :roles, :group
 
 
   class << self
