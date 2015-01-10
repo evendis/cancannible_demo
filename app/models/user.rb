@@ -26,4 +26,8 @@ class User < ActiveRecord::Base
     [username,description].compact.join ' - '
   end
 
+  def role_names_list
+    roles.collect(&:name).join ', '
+  end
+
 end

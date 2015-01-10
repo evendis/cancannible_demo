@@ -3,13 +3,15 @@
     %tr
       %th ID
       %th Username
-      %th Group
       %th Company
+      %th Group
+      %th Roles
 
   %tbody
     - collection.each do |row|
       %tr
         %td= row.id
         %td= row.username
-        %td= row.group.try(:name)
         %td= row.customer.try(:name)
+        %td= row.group.try(:name)
+        %td= row.role_names_list
