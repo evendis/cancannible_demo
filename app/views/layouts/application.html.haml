@@ -52,7 +52,17 @@
                   = current_user.username
               .panel-body
                 %span.pull-right= link_to "Sign Out", destroy_user_session_path, id: "signout", method: :delete, class: 'btn btn-default'
-                = current_user.description
+                %ul
+                  %li= current_user.description
+                  %li
+                    Group:
+                    = current_user.group_name.presence || 'not assigned'
+                  %li
+                    Roles:
+                    = current_user.role_names_list.presence || 'none'
+                  %li
+                    Customer:
+                    = current_user.customer_name.presence || 'not assigned'
             - else
               .panel-heading
                 %h3.panel-title Sign in using a demo account
