@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   class << self
 
     def options_collection_for_signin
-      all.collect{ |u| [u.full_description,u.username] }
+      order(:username).collect{ |u| [u.full_description,u.username] }
     end
   end
 
