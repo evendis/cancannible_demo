@@ -1,6 +1,9 @@
 # Cancannible Demo with Rails 3.2
+[![Build Status](https://travis-ci.org/evendis/cancannible_demo.svg?branch=master)](https://travis-ci.org/evendis/cancannible_demo)
 
-Note: this is work-in-progress..
+A Rails 3.2.x application that demonstrates how to use [Cancannible gem](https://github.com/evendis/cancannible) for role-based access permissions.
+
+This can be used interactively at [cancannibledemo.evendis.com](http://cancannibledemo.evendis.com/).
 
 ## How to run the application locally
 

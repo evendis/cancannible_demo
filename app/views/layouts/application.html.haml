@@ -79,8 +79,13 @@
             %li.list-group-item= link_to "cancannible demo source on GitHub", "https://github.com/evendis/cancannible_demo"
             %li.list-group-item
               .pull-right
+                = image_tag 'https://travis-ci.org/evendis/cancannible_demo.svg?branch=master'
+              = link_to "cancannible demo build status", "https://travis-ci.org/evendis/cancannible_demo"
+            %li.list-group-item
+              .pull-right
                 = image_tag 'https://badge.fury.io/rb/cancan.svg'
               = link_to "CanCan gem", "https://rubygems.org/gems/cancan"
+
 
       %row
         .col-md-12
