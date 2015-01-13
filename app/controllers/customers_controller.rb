@@ -1,7 +1,20 @@
-class CustomersController < InheritedResources::Base
+class CustomersController < ApplicationController
   before_filter :authenticate_user!
+
   # we are asserting access restritions in this controller.
-  # This is a CanCan + InheritedResources method that effectively
-  # restricts access to Article.accessible_by(current_ability)
-  load_and_authorize_resource
+  #
+  # Instead of relying on CanCan + InheritedResources integration,
+  # here we just use standard Rails controller capabilities
+  # to present an authorised collection to the view
+
+  before_filter :load_collection
+
+  def load_collection
+    @customers ||= if current_user.can? :read, Customer
+      Customer.accessible_by(current_ability)
+    else
+      raise CanCan::AccessDenied
+    end
+  end
+
 end

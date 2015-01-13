@@ -28,3 +28,13 @@ This can be used interactively at [cancannibledemo.evendis.com](http://cancannib
 Tests are written with [RSpec](https://www.relishapp.com/rspec/rspec-rails/docs) and are found in the [./spec](./spec) folder.
 
 Only tests that specifically demonstrate cancannible-related behaviour are included, to avoid confusing the issue.
+
+## Implementation Notes
+
+The application uses [haml](http://haml.info/) for convenience and clarity. There's no dependency however; all this works fine with ERB or other view styles.
+
+I'm also using [inherited_resources](https://github.com/josevalim/inherited_resources) for automatic RESTful bahaviour.
+Yes, it is officially deprecated, but I've yet to find anything that is better than "zero code"!
+
+However, you may not agree (and maybe I'll change my mind one day),
+so the [customers_controller.rb](./app/controllers/customers_controller.rb) provides an example of how this all works with plain old controllers and standard ERB.
