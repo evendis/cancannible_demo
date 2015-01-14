@@ -32,6 +32,11 @@ Tests are written with [RSpec](https://www.relishapp.com/rspec/rspec-rails/docs)
 
 Only tests that specifically demonstrate cancannible-related behaviour are included, to avoid confusing the issue.
 
+Guard is also included in the development bundle, so if you wish you can fire it up to run tests as you change files:
+
+    bundle exec guard
+
+
 ## Implementation Notes
 
 The application uses [haml](http://haml.info/) for convenience and clarity. There's no dependency however; all this works fine with ERB or other view styles.
