@@ -5,6 +5,9 @@ A Rails 3.2.x application that demonstrates how to use [Cancannible gem](https:/
 
 This can be used interactively at [cancannibledemo.evendis.com](http://cancannibledemo.evendis.com/).
 
+See [cancannibledemo4.evendis.com](http://cancannibledemo4.evendis.com/) for the Rails 4.x version of the demo,
+with source also on [GitHub](https://github.com/evendis/cancannible_demo4).
+
 ## How to run the application locally
 
     # clone the app and bundle (NB: assumes you have a working ruby 1.9.3 environment)
