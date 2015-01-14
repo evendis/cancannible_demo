@@ -44,6 +44,7 @@ describe CustomersController do
       it "they should see all customers" do
         expect(subject).to be_success
         expect(response.body).to have_selector('td.test_id', text: customer.id)
+        expect(response.body).to have_selector('td.test_id', text: restricted_customer.id)
       end
 
     end
@@ -59,6 +60,23 @@ describe CustomersController do
       it "they should only see accessible Customers" do
         expect(subject).to be_success
         expect(response.body).to have_selector('td.test_id', text: customer.id)
+        expect(response.body).to_not have_selector('td.test_id', text: restricted_customer.id)
+      end
+
+    end
+
+    context "when user has a customer relationship" do
+      let(:my_customer)  { FactoryGirl.create(:customer) }
+      let(:user)         { FactoryGirl.create(:user, customer: my_customer) }
+      before do
+        user.can :read, Customer
+        sign_in user
+      end
+
+      it "they should only see their own Customer" do
+        expect(subject).to be_success
+        expect(response.body).to have_selector('td.test_id', text: my_customer.id)
+        expect(response.body).to_not have_selector('td.test_id', text: customer.id)
         expect(response.body).to_not have_selector('td.test_id', text: restricted_customer.id)
       end
 
