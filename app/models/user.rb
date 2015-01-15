@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :description, :password, :password_confirmation, :customer, :group
 
+  default_scope order(:id)
+
   belongs_to :group
   belongs_to :customer
 
